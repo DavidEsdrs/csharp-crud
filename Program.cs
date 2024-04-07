@@ -5,13 +5,14 @@ using Models;
 namespace MyFirstProject {
   public enum Choose {
     Invalid = 0,
-    None,
+    Menu,
     Read,
     Write,
     Save,
-    Reset,
     Delete,
+    Reset,
     Update,
+    None,
   }
 
   public partial class Program {
@@ -19,6 +20,8 @@ namespace MyFirstProject {
       var fh = new FileHandler.FileHandler<Person>("file.txt", ParseString);
 
       Choose chose = 0;
+
+      ShowMenu();
 
       do {
         Console.Write("give a input > ");
@@ -32,6 +35,9 @@ namespace MyFirstProject {
         }
 
         switch(chose) {
+          case Choose.Menu:
+            ShowMenu();
+            break;
           case Choose.None:
             Console.WriteLine("bye :)");
             break;
@@ -60,6 +66,20 @@ namespace MyFirstProject {
         }
 
       } while(chose != Choose.None);
+    }
+
+    private static void ShowMenu() {
+      Console.WriteLine(@"
+      =========================================================
+      1 - Show this menu
+      2 - Read all registers
+      3 - Create new register (not save it yet, i.e buffers it)
+      4 - Save any register buffered
+      5 - Delete register by name
+      6 - Reset register buffer (you will lose any change not saved)
+      8 - Exit
+      =========================================================
+      ");
     }
 
     private static void Read(FileHandler.FileHandler<Person> fh) {
@@ -103,7 +123,7 @@ namespace MyFirstProject {
 
       fh.Add(p);
 
-      Console.WriteLine($"{fh.ItemsBuffered} items buffered");
+      Console.WriteLine($"{fh.ItemsBuffered} items buffered - remember to save it!");
     }
 
     public static Person ParseString(string str) {  
