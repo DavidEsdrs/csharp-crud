@@ -26,6 +26,10 @@ namespace FileHandler {
       fileName = fname;
       list = [];
       fromString = fs;
+      
+      if(!File.Exists(fileName!)) {
+        File.Create(fileName!);
+      }
     }
 
     // add an item to be saved in underlying file
